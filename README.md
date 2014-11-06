@@ -18,12 +18,10 @@ connectivity.
 ## Setup
 
 1. Download and include the AWS JavaScript SDK:
-
-      http://aws.amazon.com/sdk-for-browser/
+  * http://aws.amazon.com/sdk-for-browser/
 
 2. Download and include the Cognito Sync Manager for JavaScript:
-      
-      [/dist/amazon-cognito.min.js](https://github.com/aws/amazon-cognito-js/blob/master/dist/amazon-cognito.min.js)
+  * [/dist/amazon-cognito.min.js](https://github.com/aws/amazon-cognito-js/blob/master/dist/amazon-cognito.min.js)
 
 ## Usage
 
@@ -31,7 +29,7 @@ connectivity.
 identities" option. On the last step of the wizard, make a note of your Account ID, Identity Pool ID, and
 Unauthenticated Role ARN.
 
-https://console.aws.amazon.com/cognito/home/?region=us-east-1
+* https://console.aws.amazon.com/cognito/home/?region=us-east-1
 
 **Step 2.** Instantiate the AWS JavaScript SDK using the AWS.CognitoIdentityCredentials class, using the information you
 gathered from the previous step.
@@ -125,13 +123,16 @@ dataset.synchronize({
      dataset.resolve(resolved, function() {
         return callback(true);
      });
+     
+     // Or... callback false to stop the synchronization process.
+     // return callback(false);
 
   },
 
   onDatasetDeleted: function(dataset, datasetName, callback) {
 
      // Return true to delete the local copy of the dataset.
-     // Return false to stop the synchronization process so you can .
+     // Return false to handle deleted datasets outsid ethe synchronization callback.
 
      return callback(true);
 
@@ -139,6 +140,7 @@ dataset.synchronize({
 
   onDatasetMerged: function(dataset, datasetNames, callback) {
 
+     // Return true to continue the synchronization process.
      // Return false to handle dataset merges outside the synchroniziation callback.
 
      return callback(false);
