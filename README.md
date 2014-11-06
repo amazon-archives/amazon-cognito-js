@@ -10,7 +10,7 @@ Introduction
 
 The Cognito Sync Manager for JavaScript allows your web application to store data in the cloud for your users and
 synchronize across other devices. The library uses the browser's local storage API to create a local cache for the
-data, similar to our mobile SDK. This allows your web application to access stored data even when there is no
+data, similar to our [mobile SDK](http://aws.amazon.com/mobile/sdk/). This allows your web application to access stored data even when there is no
 connectivity.
 
 **Note:** This library is designed to be run in the browser. It has not been tested for use in other environments.
@@ -23,7 +23,7 @@ connectivity.
 
 2. Download and include the Cognito Sync Manager for JavaScript:
       
-      /dist/amazon-cognito.min.js
+      [/dist/amazon-cognito.min.js](https://github.com/aws/amazon-cognito-js/blob/master/dist/amazon-cognito.min.js)
 
 ## Usage
 
@@ -31,7 +31,7 @@ connectivity.
 identities" option. On the last step of the wizard, make a note of your Account ID, Identity Pool ID, and
 Unauthenticated Role ARN.
 
-      https://console.aws.amazon.com/cognito/home/?region=us-east-1
+https://console.aws.amazon.com/cognito/home/?region=us-east-1
 
 **Step 2.** Instantiate the AWS JavaScript SDK using the AWS.CognitoIdentityCredentials class, using the information you
 gathered from the previous step.
@@ -46,7 +46,7 @@ AWS.config.credentials = new AWS.CognitoIdentityCredentials({
 });
 ```
 
-**Step 3.** Make the call of obtain the credentials you configured, and in the callback, instantiate the CognitoSyncManager
+**Step 3.** Make the call to obtain the credentials you configured, and in the callback, instantiate the CognitoSyncManager
 class. It will assume the credentials from the AWS SDK.
 
 ```javascript
