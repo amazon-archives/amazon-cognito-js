@@ -18,10 +18,12 @@ connectivity.
 ## Setup
 
 1. Download and include the AWS JavaScript SDK:
-* http://aws.amazon.com/sdk-for-browser/
+
+      http://aws.amazon.com/sdk-for-browser/
 
 2. Download and include the Cognito Sync Manager for JavaScript:
-* /dist/amazon-cognito.min.js
+      
+      /dist/amazon-cognito.min.js
 
 ## Usage
 
