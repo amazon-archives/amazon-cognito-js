@@ -21,7 +21,7 @@ AWS.CognitoSyncManager = AWS.CognitoSyncManager || {};
 AWS.CognitoSyncManager.LocalStorage = (function() {
 
     /**
-     *
+     * Constructs a new local storage class.
      * @param options
      * @constructor
      */
@@ -40,7 +40,7 @@ AWS.CognitoSyncManager.LocalStorage = (function() {
     };
 
     /**
-     *
+     * Returns the string used to store dataset metadata.
      * @param identityId
      * @param datasetName
      * @returns {string}
@@ -51,7 +51,7 @@ AWS.CognitoSyncManager.LocalStorage = (function() {
     };
 
     /**
-     *
+     * Load the metadata cache from the local store.
      * @param identityId
      * @param callback
      */
@@ -77,7 +77,7 @@ AWS.CognitoSyncManager.LocalStorage = (function() {
     };
 
     /**
-     *
+     * Save the metadata cache from the local store.
      * @param identityId
      * @param metadata
      * @param callback
@@ -93,36 +93,7 @@ AWS.CognitoSyncManager.LocalStorage = (function() {
     };
 
     /**
-     *
-     * @param id
-     * @param callback
-     */
-
-    CognitoSyncLocalStorage.prototype.saveCachedId = function (id, callback) {
-        this.store.set('_internal', '_cached', 'id', id, function (err) {
-            if (err) {
-                return callback(err);
-            }
-            return callback(null, id);
-        });
-    };
-
-    /**
-     *
-     * @param callback
-     */
-
-    CognitoSyncLocalStorage.prototype.loadCachedId = function (callback) {
-        this.store.get('_internal', '_cached', 'id', function (err, id) {
-            if (err) {
-                return callback(err, null);
-            }
-            callback(null, id);
-        });
-    };
-
-    /**
-     *
+     * Creates a new dataset.
      * @param identityId
      * @param datasetName
      * @param callback
@@ -162,7 +133,7 @@ AWS.CognitoSyncManager.LocalStorage = (function() {
     };
 
     /**
-     *
+     * Returns the dataset metadata.
      * @param identityId
      * @param datasetName
      * @param callback
@@ -202,7 +173,7 @@ AWS.CognitoSyncManager.LocalStorage = (function() {
     };
 
     /**
-     *
+     * Sets a dataset's metadata.
      * @param identityId
      * @param datasetName
      * @param metadata
@@ -224,7 +195,7 @@ AWS.CognitoSyncManager.LocalStorage = (function() {
 
 
     /**
-     *
+     * Returns a record's value from the local store.
      * @param identityId
      * @param datasetName
      * @param key
@@ -246,7 +217,7 @@ AWS.CognitoSyncManager.LocalStorage = (function() {
     };
 
     /**
-     *
+     * Sets a record's value from the local store.
      * @param identityId
      * @param datasetName
      * @param key
@@ -295,7 +266,7 @@ AWS.CognitoSyncManager.LocalStorage = (function() {
     };
 
     /**
-     *
+     * Returns a map of values for a dataset from the local store.
      * @param identityId
      * @param datasetName
      * @param callback
@@ -324,7 +295,7 @@ AWS.CognitoSyncManager.LocalStorage = (function() {
     };
 
     /**
-     *
+     * Sets multiple records in a dataset in the local store.
      * @param identityId
      * @param datasetName
      * @param values
@@ -373,7 +344,7 @@ AWS.CognitoSyncManager.LocalStorage = (function() {
     };
 
     /**
-     *
+     * Returns a list of datasets in the local store.
      * @param identityId
      * @param callback
      */
@@ -412,7 +383,7 @@ AWS.CognitoSyncManager.LocalStorage = (function() {
     };
 
     /**
-     *
+     * Updates dataset metadata and saves to the cache.
      * @param identityId
      * @param metadata
      * @param callback
@@ -424,13 +395,9 @@ AWS.CognitoSyncManager.LocalStorage = (function() {
 
         this.getDatasetMetadata(identityId, metadata.getDatasetName(), function (err, local) {
 
-            if (err) {
-                callback(err);
-            }
+            if (err) { callback(err); }
 
-            if (!local) {
-                local = new AWS.CognitoSyncManager.DatasetMetadata();
-            }
+            if (!local) { local = new AWS.CognitoSyncManager.DatasetMetadata(); }
 
             local.setDatasetName(metadata.getDatasetName())
                 .setCreationDate(metadata.getCreationDate())
@@ -447,10 +414,8 @@ AWS.CognitoSyncManager.LocalStorage = (function() {
             // Save the updated metadata to the on-disk store.
 
             root.saveMetadataCache(identityId, root.meta, function (err) {
-                if (err) {
-                    callback(err);
-                }
-                callback(null, local);
+                if (err) { return callback(err); }
+                return callback(null, local);
             });
 
         });
@@ -458,7 +423,7 @@ AWS.CognitoSyncManager.LocalStorage = (function() {
     };
 
     /**
-     *
+     * Returns a record from the local store.
      * @param identityId
      * @param datasetName
      * @param key
@@ -466,21 +431,14 @@ AWS.CognitoSyncManager.LocalStorage = (function() {
      */
 
     CognitoSyncLocalStorage.prototype.getRecord = function (identityId, datasetName, key, callback) {
-
         this.store.get(identityId, datasetName, key, function (err, record) {
-
-            if (record) {
-                return callback(null, new AWS.CognitoSyncManager.Record(record));
-            }
-
+            if (record) { return callback(null, new AWS.CognitoSyncManager.Record(record)); }
             return callback(new Error('Key doesn\'t exist.'), null);
-
         });
-
     };
 
     /**
-     *
+     * Returns all records from a dataset in the local store.
      * @param identityId
      * @param datasetName
      * @param callback
@@ -505,7 +463,7 @@ AWS.CognitoSyncManager.LocalStorage = (function() {
     };
 
     /**
-     *
+     * Puts multiple records into a dataset in the local store.
      * @param identityId
      * @param datasetName
      * @param records
@@ -541,7 +499,7 @@ AWS.CognitoSyncManager.LocalStorage = (function() {
     };
 
     /**
-     *
+     * Deletes a dataset from the local store.
      * @param identityId
      * @param datasetName
      * @param callback
@@ -604,7 +562,7 @@ AWS.CognitoSyncManager.LocalStorage = (function() {
     };
 
     /**
-     *
+     * Returns the last sync count for a dataset in the local store.
      * @param identityId
      * @param datasetName
      * @param callback
@@ -623,7 +581,7 @@ AWS.CognitoSyncManager.LocalStorage = (function() {
     };
 
     /**
-     *
+     * Returns the modified records in a dataset from the local store.
      * @param identityId
      * @param datasetName
      * @param callback
@@ -650,7 +608,7 @@ AWS.CognitoSyncManager.LocalStorage = (function() {
     };
 
     /**
-     *
+     * Updates the last sync count for a dataset in the local store.
      * @param identityId
      * @param datasetName
      * @param lastSyncCount
@@ -681,7 +639,7 @@ AWS.CognitoSyncManager.LocalStorage = (function() {
     };
 
     /**
-     *
+     * Removes all data from the local store.
      * @param callback
      */
 
@@ -690,7 +648,7 @@ AWS.CognitoSyncManager.LocalStorage = (function() {
     };
 
     /**
-     *
+     * Modifies the date a dataset was last modified in the local store.
      * @param identityId
      * @param datasetName
      * @param callback
@@ -720,25 +678,21 @@ AWS.CognitoSyncManager.LocalStorage = (function() {
     };
 
     /**
-     *
+     * Removes a record from the local store.
      * @param identityId
      * @param datasetName
      * @param record
      */
 
     CognitoSyncLocalStorage.prototype.removeRecord = function (identityId, datasetName, record) {
-
         this.store.remove(identityId, datasetName, record, function (err) {
-            if (err) {
-                return callback(err);
-            }
+            if (err) { return callback(err); }
             return callback(null, true);
         });
-
     };
 
     /**
-     *
+     * Saves a record to the local store.
      * @param identityId
      * @param datasetName
      * @param record
@@ -746,16 +700,10 @@ AWS.CognitoSyncManager.LocalStorage = (function() {
      */
 
     CognitoSyncLocalStorage.prototype.updateAndClearRecord = function (identityId, datasetName, record, callback) {
-
-        // Save record to local store.
-
         this.store.set(identityId, datasetName, record.getKey(), record.toJSON(), function (err) {
-            if (err) {
-                return callback(err);
-            }
+            if (err) { return callback(err); }
             return callback(null, true);
         });
-
     };
 
     return CognitoSyncLocalStorage;

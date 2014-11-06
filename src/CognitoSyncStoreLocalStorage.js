@@ -21,21 +21,19 @@ AWS.CognitoSyncManager = AWS.CognitoSyncManager || {};
 AWS.CognitoSyncManager.StoreLocalStorage = (function() {
 
     /**
-     * Storage adapter for using the browser's local storage as the Cognito Sync data store.
-     * @prop {*} store A reference to the browser's local store.
+     * Storage adapter for using the browser's local storage as the Cognito Sync data cache.
+     * @prop {window.localStorage} store A reference to the browser's local storage API.
      * @constructor
      */
 
     var CognitoSyncStoreLocalStorage = function () {
-
         this.store = window.localStorage;
-
     };
 
     /**
-     *
-     * @param identityId
-     * @param datasetName
+     * Constructs the key by combining the identity ID and the dataset name.
+     * @param {string} identityId
+     * @param {string} datasetName
      * @returns {string}
      */
 
@@ -44,12 +42,11 @@ AWS.CognitoSyncManager.StoreLocalStorage = (function() {
     };
 
     /**
-     *
-     * @param {string} identityId The identity of the data store.
+     * Returns a value from local storage.
+     * @param {string} identityId The identity that owns the dataset.
      * @param {string} datasetName The name of the dataset.
      * @param {string} key The key of the record to return.
      * @param {function} callback
-     * @returns {null}
      */
 
     CognitoSyncStoreLocalStorage.prototype.get = function (identityId, datasetName, key, callback) {
@@ -71,11 +68,10 @@ AWS.CognitoSyncManager.StoreLocalStorage = (function() {
     };
 
     /**
-     *
+     * Gets all records from local storage.
      * @param identityId
      * @param datasetName
-     * @param callback
-     * @returns {CognitoSyncStoreLocalStorage}
+     * @param callback Callback(Error, Items)
      */
 
     CognitoSyncStoreLocalStorage.prototype.getAll = function (identityId, datasetName, callback) {
@@ -91,13 +87,12 @@ AWS.CognitoSyncManager.StoreLocalStorage = (function() {
     };
 
     /**
-     *
+     * Sets a value in local storage.
      * @param identityId
      * @param datasetName
      * @param key
      * @param value
-     * @param callback
-     * @returns {CognitoSyncStoreLocalStorage}
+     * @param callback Callback(Error, Records)
      */
 
     CognitoSyncStoreLocalStorage.prototype.set = function (identityId, datasetName, key, value, callback) {
@@ -120,12 +115,11 @@ AWS.CognitoSyncManager.StoreLocalStorage = (function() {
     };
 
     /**
-     *
+     * Sets all values of a dataset.
      * @param identityId
      * @param datasetName
      * @param obj
-     * @param callback
-     * @returns {CognitoSyncStoreLocalStorage}
+     * @param callback Callback(Error, Object)
      */
 
     CognitoSyncStoreLocalStorage.prototype.setAll = function (identityId, datasetName, obj, callback) {
@@ -139,12 +133,11 @@ AWS.CognitoSyncManager.StoreLocalStorage = (function() {
     };
 
     /**
-     *
+     * Removes an item from local storage.
      * @param identityId
      * @param datasetName
      * @param key
      * @param callback
-     * @returns {CognitoSyncStoreLocalStorage}
      */
 
     CognitoSyncStoreLocalStorage.prototype.remove = function (identityId, datasetName, key, callback) {
@@ -165,7 +158,7 @@ AWS.CognitoSyncManager.StoreLocalStorage = (function() {
     };
 
     /**
-     *
+     * Removes dataset from local storage.
      * @param identityId
      * @param datasetName
      * @param callback
@@ -181,7 +174,7 @@ AWS.CognitoSyncManager.StoreLocalStorage = (function() {
     };
 
     /**
-     * Clears local storage, including cached
+     * Clears local storage, including cached values.
      * @param callback
      */
 

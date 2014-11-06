@@ -21,7 +21,8 @@ AWS.CognitoSyncManager = AWS.CognitoSyncManager || {};
 AWS.CognitoSyncManager.StoreInMemory = (function() {
 
     /**
-     *
+     * Storage adapter for using the browser's memory as the Cognito Sync data cache.
+     * @prop {object} store A reference to an object in memory.
      * @constructor
      */
 
@@ -30,7 +31,7 @@ AWS.CognitoSyncManager.StoreInMemory = (function() {
     };
 
     /**
-     *
+     * Constructs the key by combining the identity ID and the dataset name.
      * @param identityId
      * @param datasetName
      * @returns {string}
@@ -41,12 +42,11 @@ AWS.CognitoSyncManager.StoreInMemory = (function() {
     };
 
     /**
-     *
+     * Gets an item from the local store.
      * @param identityId
      * @param datasetName
      * @param key
      * @param callback
-     * @returns {CognitoSyncStoreInMemory}
      */
 
     CognitoSyncStoreInMemory.prototype.get = function (identityId, datasetName, key, callback) {
@@ -66,11 +66,10 @@ AWS.CognitoSyncManager.StoreInMemory = (function() {
     };
 
     /**
-     *
+     * Gets a dataset from the local store.
      * @param identityId
      * @param datasetName
      * @param callback
-     * @returns {CognitoSyncStoreInMemory}
      */
 
     CognitoSyncStoreInMemory.prototype.getAll = function (identityId, datasetName, callback) {
@@ -86,13 +85,12 @@ AWS.CognitoSyncManager.StoreInMemory = (function() {
     };
 
     /**
-     *
+     * Sets a record in the local store.
      * @param identityId
      * @param datasetName
      * @param key
      * @param value
      * @param callback
-     * @returns {CognitoSyncStoreInMemory}
      */
 
     CognitoSyncStoreInMemory.prototype.set = function (identityId, datasetName, key, value, callback) {
@@ -109,12 +107,11 @@ AWS.CognitoSyncManager.StoreInMemory = (function() {
     };
 
     /**
-     *
+     * Sets an entire dataset in the local store.
      * @param identityId
      * @param datasetName
      * @param obj
      * @param callback
-     * @returns {CognitoSyncStoreInMemory}
      */
 
     CognitoSyncStoreInMemory.prototype.setAll = function (identityId, datasetName, obj, callback) {
@@ -127,12 +124,11 @@ AWS.CognitoSyncManager.StoreInMemory = (function() {
     };
 
     /**
-     *
+     * Removes a record from the local store.
      * @param identityId
      * @param datasetName
      * @param key
      * @param callback
-     * @returns {CognitoSyncStoreInMemory}
      */
 
     CognitoSyncStoreInMemory.prototype.remove = function (identityId, datasetName, key, callback) {
@@ -153,7 +149,7 @@ AWS.CognitoSyncManager.StoreInMemory = (function() {
     };
 
     /**
-     *
+     * Removes dataset from local store.
      * @param identityId
      * @param datasetName
      * @param callback
@@ -169,7 +165,7 @@ AWS.CognitoSyncManager.StoreInMemory = (function() {
     };
 
     /**
-     *
+     * Clears the local store, including cached values.
      * @param callback
      */
 

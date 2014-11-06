@@ -1,6 +1,9 @@
 ﻿# Amazon Cognito Sync Manager for JavaScript
 
-**Developer Preview**
+**Developer Preview:** We welcome developer feedback on this project. You can reach us by creating an issue on the GitHub repository or post to the Amazon Cognito forums:
+
+* https://github.com/aws/amazon-cognito-js/issues
+* https://forums.aws.amazon.com/forum.jspa?forumID=173
 
 Introduction
 ============
@@ -10,32 +13,28 @@ synchronize across other devices. The library uses the browser's local storage A
 data, similar to our mobile SDK. This allows your web application to access stored data even when there is no
 connectivity.
 
-**Note:** This library is designed to be run in the browser. It has not been tested for use in Node environments.
-
-To provide feedback, create an issue on the GitHub repository or post to the Amazon Cognito forums:
-* https://github.com/aws/amazon-cognito-js/issues
-* https://forums.aws.amazon.com/forum.jspa?forumID=173
+**Note:** This library is designed to be run in the browser. It has not been tested for use in other environments.
 
 ## Setup
 
 1. Download and include the AWS JavaScript SDK:
-      http://aws.amazon.com/sdk-for-browser/
+* http://aws.amazon.com/sdk-for-browser/
 
 2. Download and include the Cognito Sync Manager for JavaScript:
-      /dist/amazon-cognito.min.js
+* /dist/amazon-cognito.min.js
 
 ## Usage
 
-1. Log into Amazon Cognito management console and create a new identity pool. Be sure to enable the "unauthenticated
+**Step 1.** Log into Amazon Cognito management console and create a new identity pool. Be sure to enable the "unauthenticated
 identities" option. On the last step of the wizard, make a note of your Account ID, Identity Pool ID, and
 Unauthenticated Role ARN.
 
       https://console.aws.amazon.com/cognito/home/?region=us-east-1
 
-2. Instantiate the AWS JavaScript SDK using the AWS.CognitoIdentityCredentials class, using the information you
+**Step 2.** Instantiate the AWS JavaScript SDK using the AWS.CognitoIdentityCredentials class, using the information you
 gathered from the previous step.
 
-```
+```javascript
 AWS.config.region = 'us-east-1';
 
 AWS.config.credentials = new AWS.CognitoIdentityCredentials({
@@ -45,10 +44,10 @@ AWS.config.credentials = new AWS.CognitoIdentityCredentials({
 });
 ```
 
-3. Make the call of obtain the credentials you configured, and in the callback, instantiate the CognitoSyncManager
+**Step 3.** Make the call of obtain the credentials you configured, and in the callback, instantiate the CognitoSyncManager
 class. It will assume the credentials from the AWS SDK.
 
-```
+```javascript
 AWS.config.credentials.get(function() {
 
     client = new AWS.CognitoSyncManager();
@@ -58,10 +57,10 @@ AWS.config.credentials.get(function() {
 });
 ```
 
-4. Now you need to open or create a new dataset to start saving data to. Call .openOrCreateDataset() and pass in the
+**Step 4.** Now you need to open or create a new dataset to start saving data to. Call .openOrCreateDataset() and pass in the
 desired dataset name.
 
-```
+```javascript
 client.openOrCreateDataset('myDatasetName', function(err, dataset) {
 
    // Do something with the dataset here.
@@ -69,9 +68,9 @@ client.openOrCreateDataset('myDatasetName', function(err, dataset) {
 });
 ```
 
-5. Once you have the dataset object, you can write, read, and delete records to that dataset.
+**Step 5.** Once you have the dataset object, you can write, read, and delete records to that dataset.
 
-```
+```javascript
 <!-- Read Records -->
 dataset.get('myRecord', function(err, value) {
   console.log('myRecord: ' + value);
@@ -88,10 +87,10 @@ dataset.remove('oldKey', function(err, record) {
 });
 ```
 
-6. Finally, synchronize the data to Cognito. You pass the synchronize function an object with callbacks to handle the
+**Step 6.** Finally, synchronize the data to Cognito. You pass the synchronize function an object with callbacks to handle the
 various outcomes: onSuccess, onFailure, onConflict, onDatasetMerged, onDatasetDeleted.
 
-```
+```javascript
 <!-- Synchronize -->
 dataset.synchronize({
 

@@ -21,7 +21,7 @@ AWS.CognitoSyncManager = AWS.CognitoSyncManager || {};
 AWS.CognitoSyncManager.Record = (function() {
 
     /**
-     *
+     * Constructs a new remote storage class.
      * @param {Object} data
      * @param {string} data.Key - The record's key
      * @param {string} data.Value - The record's key
@@ -30,13 +30,6 @@ AWS.CognitoSyncManager.Record = (function() {
      * @param {string} data.LastModifiedBy
      * @param {Date} data.DeviceLastModifiedDate
      * @param {boolean} data.Modified
-     * @prop {string} key
-     * @prop {string} value
-     * @prop {number} syncCount
-     * @prop {Date} lastModifiedDate
-     * @prop {string} lastModifiedBy
-     * @prop {Date} deviceLastModifiedDate
-     * @prop {boolean} modified
      * @constructor
      */
 
@@ -56,7 +49,7 @@ AWS.CognitoSyncManager.Record = (function() {
     };
 
     /**
-     *
+     * Returns the record's key.
      * @returns {string}
      */
 
@@ -65,7 +58,7 @@ AWS.CognitoSyncManager.Record = (function() {
     };
 
     /**
-     *
+     * Sets the record's key.
      * @param key
      * @returns {CognitoSyncRecord}
      */
@@ -76,7 +69,7 @@ AWS.CognitoSyncManager.Record = (function() {
     };
 
     /**
-     *
+     * Returns the record's value.
      * @returns {string}
      */
 
@@ -85,7 +78,7 @@ AWS.CognitoSyncManager.Record = (function() {
     };
 
     /**
-     *
+     * Sets the record's value.
      * @param value
      * @returns {CognitoSyncRecord}
      */
@@ -96,7 +89,7 @@ AWS.CognitoSyncManager.Record = (function() {
     };
 
     /**
-     *
+     * Returns the current sync count.
      * @returns {number}
      */
 
@@ -105,7 +98,7 @@ AWS.CognitoSyncManager.Record = (function() {
     };
 
     /**
-     *
+     * Sets the current sync count.
      * @param syncCount
      * @returns {CognitoSyncRecord}
      */
@@ -116,7 +109,7 @@ AWS.CognitoSyncManager.Record = (function() {
     };
 
     /**
-     *
+     * Returns the date the record was last modified.
      * @returns {Date}
      */
 
@@ -125,7 +118,7 @@ AWS.CognitoSyncManager.Record = (function() {
     };
 
     /**
-     *
+     * Sets the date the record was last modified.
      * @param modifiedDate
      * @returns {CognitoSyncRecord}
      */
@@ -136,7 +129,7 @@ AWS.CognitoSyncManager.Record = (function() {
     };
 
     /**
-     *
+     * Returns the user who last modified the record.
      * @returns {string}
      */
 
@@ -145,7 +138,7 @@ AWS.CognitoSyncManager.Record = (function() {
     };
 
     /**
-     *
+     * Sets the user who last modified the record.
      * @param modifiedBy
      * @returns {CognitoSyncRecord}
      */
@@ -156,7 +149,7 @@ AWS.CognitoSyncManager.Record = (function() {
     };
 
     /**
-     *
+     * Returns the date when the record was last modified on the local device.
      * @returns {Date}
      */
 
@@ -165,7 +158,7 @@ AWS.CognitoSyncManager.Record = (function() {
     };
 
     /**
-     *
+     * Sets the date when the record was last modified on the local device.
      * @param modifiedDate
      * @returns {CognitoSyncRecord}
      */
@@ -176,7 +169,7 @@ AWS.CognitoSyncManager.Record = (function() {
     };
 
     /**
-     *
+     * Returns if the record has been modified.
      * @returns {boolean}
      */
 
@@ -185,7 +178,7 @@ AWS.CognitoSyncManager.Record = (function() {
     };
 
     /**
-     *
+     * Sets if the record has been modified.
      * @param modified
      * @returns {CognitoSyncRecord}
      */
@@ -196,7 +189,7 @@ AWS.CognitoSyncManager.Record = (function() {
     };
 
     /**
-     *
+     * Returns if the record has been deleted locally.
      * @returns {boolean}
      */
 
@@ -205,7 +198,7 @@ AWS.CognitoSyncManager.Record = (function() {
     };
 
     /**
-     *
+     * Returns a string representation of the record.
      * @returns {string}
      */
 
@@ -214,7 +207,7 @@ AWS.CognitoSyncManager.Record = (function() {
     };
 
     /**
-     *
+     * Returns a flat object representing the record.
      * @returns {object}
      */
 

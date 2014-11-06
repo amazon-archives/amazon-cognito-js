@@ -96,6 +96,11 @@ AWS.CognitoSyncManager.Dataset = (function() {
         this.local.getRecords(this.getIdentityId(), this.datasetName, callback);
     };
 
+    /**
+     * Returns the amount of data stored on the server.
+     * @param callback
+     */
+
     CognitoSyncDataset.prototype.getDataStorage = function(callback) {
 
         this.getDatasetMetadata(function(err, meta) {
@@ -106,23 +111,44 @@ AWS.CognitoSyncManager.Dataset = (function() {
 
     };
 
+    /**
+     * Returns if a specific record has changed.
+     * @param key
+     * @param callback
+     */
+
     CognitoSyncDataset.prototype.isChanged = function(key, callback) {
-
         if (!this.validateKey(key)) { return callback(new Error('Invalid key.')); }
-
         this.local.getRecord(this.getIdentityId(), this.datasetName, key, function(err, record) {
             callback(null, (record && record.isModified()));
         });
-
     };
+
+    /**
+     * Returns the dataset metadata.
+     * @param callback
+     */
 
     CognitoSyncDataset.prototype.getDatasetMetadata = function(callback) {
         this.local.getDatasetMetadata(this.getIdentityId(), this.datasetName, callback);
     };
 
+    /**
+     * Resolves conflicts using the records provided.
+     * @param resolvedRecords
+     * @param callback
+     */
+
     CognitoSyncDataset.prototype.resolve = function(resolvedRecords, callback) {
         this.local.putRecords(this.getIdentityId(), this.datasetName, resolvedRecords, callback);
     };
+
+    /**
+     * Puts all values into the dataset.
+     * @param values
+     * @param callback
+     * @returns {*}
+     */
 
     CognitoSyncDataset.prototype.putAll = function(values, callback) {
 
@@ -139,6 +165,11 @@ AWS.CognitoSyncManager.Dataset = (function() {
         this.local.putAllValues(this.getIdentityId(), this.datasetName, values, callback);
 
     };
+
+    /**
+     * Returns all records from a dataset.
+     * @param callback
+     */
 
     CognitoSyncDataset.prototype.getAll = function(callback) {
 
@@ -162,13 +193,28 @@ AWS.CognitoSyncManager.Dataset = (function() {
 
     };
 
+    /**
+     * Returns the current user's identity id.
+     * @returns {string};
+     */
+
     CognitoSyncDataset.prototype.getIdentityId = function() {
         return this.provider.identityId;
     };
 
+    /**
+     * Returns the records that have been modified.
+     * @param callback
+     */
+
     CognitoSyncDataset.prototype.getModifiedRecords = function(callback) {
         this.local.getModifiedRecords(this.getIdentityId(), this.datasetName, callback);
     };
+
+    /**
+     * Returns a list of datasets that have been merged.
+     * @param callback
+     */
 
     CognitoSyncDataset.prototype.getLocalMergedDatasets = function(callback) {
 
@@ -195,6 +241,12 @@ AWS.CognitoSyncManager.Dataset = (function() {
         });
 
     };
+
+    /**
+     * Starts the synchronization process.
+     * @param callback
+     * @param retry
+     */
 
     CognitoSyncDataset.prototype.synchronize = function(callback, retry) {
 
@@ -395,6 +447,13 @@ AWS.CognitoSyncManager.Dataset = (function() {
         });
     };
 
+    /**
+     * An internal function for helping the synchronization call to resolve local conflicts.
+     * @param remoteRecords
+     * @param callback
+     * @private
+     */
+
     CognitoSyncDataset.prototype._synchronizeResolveLocal = function(remoteRecords, callback) {
 
         // Step two of the synchronization flow.
@@ -446,6 +505,14 @@ AWS.CognitoSyncManager.Dataset = (function() {
         }
 
     };
+
+    /**
+     * An internal function for helping the synchronization call to push changes to the server.
+     * @param sessionToken
+     * @param syncCount
+     * @param callback
+     * @private
+     */
 
     CognitoSyncDataset.prototype._synchronizePushRemote = function(sessionToken, syncCount, callback) {
 
