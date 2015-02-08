@@ -40,7 +40,7 @@ AWS.CognitoSyncManager.DatasetMetadata = (function(){
 
         // Meta metadata.
         this.lastSyncCount = metadata.LastSyncCount || 0;
-        this.lastSyncDate = new Date(metadata.LastSyncDate) || new Date();
+        this.lastSyncDate = metadata.LastSyncDate ? new Date(metadata.LastSyncDate) : new Date();
 
         // Validate object.
         if (this.dataStorage < 0) { throw new RangeError('Storage size cannot be negative.'); }
