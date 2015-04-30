@@ -61,7 +61,11 @@ AWS.CognitoSyncManager.Dataset = (function() {
      */
 
     CognitoSyncDataset.prototype.put = function(key, value, callback) {
+        var valueType = typeof value;
         if (!this.validateKey(key)) { return callback(new Error('Invalid key.')); }
+        if (valueType !== 'string') {
+            return callback(new Error('The value type must be a string but was ' + valueType + '.'));
+        }
         this.local.putValue(this.getIdentityId(), this.datasetName, key, value, callback);
     };
 
@@ -266,7 +270,7 @@ AWS.CognitoSyncManager.Dataset = (function() {
         root.logger('Starting synchronization... (retires: ' + retry + ')');
 
         if (retry < 0) {
-            return callback.onFailure(new Error('Synchronized failed: exceeded maximum retry count.'));
+            return callback.onFailure(new Error('Synchronize failed: exceeded maximum retry count.'));
         }
 
         // First check if any datasets have been merged locally.
