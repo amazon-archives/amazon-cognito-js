@@ -38,9 +38,7 @@ gathered from the previous step.
 AWS.config.region = 'us-east-1';
 
 AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-    AccountId: 'YOUR AWS ACCOUNT ID',
     IdentityPoolId: 'YOUR IDENTITY POOL ID',
-    RoleArn: 'YOUR UNAUTHENTICATED ROLE ARN'
 });
 ```
 
