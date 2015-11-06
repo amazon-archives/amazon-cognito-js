@@ -312,138 +312,154 @@ AWS.CognitoSyncManager.Dataset = (function() {
 
                     root.logger('Detecting last sync count... ' + syncCount);
 
-                    // Get all the remote records that have changed since the latest sync count.
+                    if (syncCount == -1) {
 
-                    root.remote.listUpdates(root.datasetName, syncCount, function(err, remoteRecords) {
-
-                        if (err) { return callback.onFailure(err); }
-
-                        root.logger('Fetch remote updates... found ' + remoteRecords.records.length + '.');
-
-                        var mergedNameList = remoteRecords.getMergedDatasetNameList();
-
-                        root.logger('Checking for remote merged datasets... found ' + mergedNameList.length + '.');
-
-                        if (mergedNameList.length > 0) {
-
-                            root.logger('Deferring to .onDatasetsMerged.');
-
-                            // Merged datasets exist. Use callback to determine action.
-                            return callback.onDatasetsMerged(root, mergedNameList, function(doContinue) {
-                                if (!doContinue) { callback.onFailure(new Error('Cancelled due to .onDatasetsMerged result.')); }
-                                else { root._synchronizeInternal(callback, --retry); }
+                        // Dataset has been deleted locally
+                        root.remote.deleteDataset(root.datasetName, function(err, data) {
+                            if (err) { return callback.onFailure(err); }
+                            root.local.purgeDataset(root.getIdentityId(), root.datasetName, function(err) {
+                               if (err) { return callback.onFailure(err); }
+                               return callback.onSuccess(root);
                             });
-                        }
+                        });
 
-                        // Check if dataset doesn't exist or is deleted.
+                    } else {
 
-                        if (syncCount !== 0 && !remoteRecords || remoteRecords.isDeleted()) {
+                        // Get all the remote records that have changed since the latest sync count.
 
-                            return callback.onDatasetDeleted(root, remoteRecords.getDatasetName(), function(doContinue) {
+                        root.remote.listUpdates(root.datasetName, syncCount, function(err, remoteRecords) {
 
-                                root.logging('Dataset should be deleted. Deferring to .onDatasetDeleted.');
+                            if (err) { return callback.onFailure(err); }
 
-                                if (doContinue) {
-                                    root.logging('.onDatasetDeleted returned true, purging dataset locally.');
-                                    return root.local.purgeDataset(root.getIdentityId(), root.datasetName, function(err) {
-                                        if (err) { return callback.onFailure(err); }
-                                        return root._synchronizeInternal(callback, --retry);
-                                    });
-                                } else {
-                                    root.logging('.onDatasetDeleted returned false, cancelling sync.');
-                                    return callback.onFailure(new Error('Cancelled due to .onDatasetDeleted result.'));
-                                }
+                            root.logger('Fetch remote updates... found ' + remoteRecords.records.length + '.');
 
-                            });
+                            var mergedNameList = remoteRecords.getMergedDatasetNameList();
 
-                        }
+                            root.logger('Checking for remote merged datasets... found ' + mergedNameList.length + '.');
 
-                        var updatedRemoteRecords = remoteRecords.getRecords();
-                        var lastSyncCount = remoteRecords.getSyncCount();
-                        var sessionToken = remoteRecords.getSyncSessionToken();
+                            if (mergedNameList.length > 0) {
 
-                        // Check if there have been any updates since the last sync count.
+                                root.logger('Deferring to .onDatasetsMerged.');
 
-                        root.logger('Checking for remote updates since last sync count... found ' + updatedRemoteRecords.length + '.');
+                                // Merged datasets exist. Use callback to determine action.
+                                return callback.onDatasetsMerged(root, mergedNameList, function(doContinue) {
+                                    if (!doContinue) { callback.onFailure(new Error('Cancelled due to .onDatasetsMerged result.')); }
+                                    else { root._synchronizeInternal(callback, --retry); }
+                                });
+                            }
 
-                        if (updatedRemoteRecords.length > 0) {
+                            // Check if dataset doesn't exist or is deleted.
 
-                            root._synchronizeResolveLocal(updatedRemoteRecords, function(err, conflicts) {
+                            if (syncCount !== 0 && !remoteRecords || remoteRecords.isDeleted()) {
 
-                                if (err) { return callback.onFailure(err); }
+                                return callback.onDatasetDeleted(root, remoteRecords.getDatasetName(), function(doContinue) {
 
-                                root.logger('Checking for conflicts... found ' + conflicts.length + '.');
+                                    root.logging('Dataset should be deleted. Deferring to .onDatasetDeleted.');
 
-                                if (conflicts.length > 0) {
+                                    if (doContinue) {
+                                        root.logging('.onDatasetDeleted returned true, purging dataset locally.');
+                                        return root.local.purgeDataset(root.getIdentityId(), root.datasetName, function(err) {
+                                            if (err) { return callback.onFailure(err); }
+                                            return root._synchronizeInternal(callback, --retry);
+                                        });
+                                    } else {
+                                        root.logging('.onDatasetDeleted returned false, cancelling sync.');
+                                        return callback.onFailure(new Error('Cancelled due to .onDatasetDeleted result.'));
+                                    }
 
-                                    root.logger('Conflicts detected. Deferring to .onConflict.');
+                                });
 
-                                    callback.onConflict(root, conflicts, function(isContinue) {
+                            }
 
-                                        if (!isContinue) {
+                            var updatedRemoteRecords = remoteRecords.getRecords();
+                            var lastSyncCount = remoteRecords.getSyncCount();
+                            var sessionToken = remoteRecords.getSyncSessionToken();
 
-                                            root.logger('.onConflict returned false. Cancelling sync.');
-                                            return callback.onFailure(new Error('Sync cancelled. Conflict callback returned false.'));
+                            // Check if there have been any updates since the last sync count.
 
-                                        } else {
+                            root.logger('Checking for remote updates since last sync count... found ' + updatedRemoteRecords.length + '.');
 
-                                            // Update remote records or we will just hit another sync conflict next go around.
+                            if (updatedRemoteRecords.length > 0) {
 
-                                            root._synchronizePushRemote(sessionToken, syncCount, function(){
-                                                return root.synchronize(callback, --retry);
-                                            });
+                                root._synchronizeResolveLocal(updatedRemoteRecords, function(err, conflicts) {
 
-                                        }
+                                    if (err) { return callback.onFailure(err); }
 
-                                    });
+                                    root.logger('Checking for conflicts... found ' + conflicts.length + '.');
 
-                                } else {
+                                    if (conflicts.length > 0) {
 
-                                    // No conflicts, update local records.
-                                    root.logger('No conflicts. Updating local records.');
+                                        root.logger('Conflicts detected. Deferring to .onConflict.');
 
-                                    root.local.putRecords(root.getIdentityId(), root.datasetName, updatedRemoteRecords, function(err) {
+                                        callback.onConflict(root, conflicts, function(isContinue) {
 
-                                        if (err) { return callback.onFailure(err); }
+                                            if (!isContinue) {
 
-                                        // Update the local sync count to match.
+                                                root.logger('.onConflict returned false. Cancelling sync.');
+                                                return callback.onFailure(new Error('Sync cancelled. Conflict callback returned false.'));
 
-                                        root.local.updateLastSyncCount(root.getIdentityId(), root.datasetName, lastSyncCount, function(err) {
+                                            } else {
+
+                                                // Update remote records or we will just hit another sync conflict next go around.
+
+                                                root._synchronizePushRemote(sessionToken, syncCount, function(){
+                                                    return root.synchronize(callback, --retry);
+                                                });
+
+                                            }
+
+                                        });
+
+                                    } else {
+
+                                        // No conflicts, update local records.
+                                        root.logger('No conflicts. Updating local records.');
+
+                                        root.local.putRecords(root.getIdentityId(), root.datasetName, updatedRemoteRecords, function(err) {
 
                                             if (err) { return callback.onFailure(err); }
 
-                                            root.logger('Finished resolving records. Restarting sync.');
+                                            // Update the local sync count to match.
 
-                                            // Callback returned true, starting sync.
-                                            return root.synchronize(callback, --retry);
+                                            root.local.updateLastSyncCount(root.getIdentityId(), root.datasetName, lastSyncCount, function(err) {
 
+                                                if (err) { return callback.onFailure(err); }
+
+                                                root.logger('Finished resolving records. Restarting sync.');
+
+                                                // Callback returned true, starting sync.
+                                                return root.synchronize(callback, --retry);
+
+                                            });
                                         });
-                                    });
 
-                                }
+                                    }
 
-                            });
+                                });
 
 
-                        } else {
+                            } else {
 
-                            // Nothing updated remotely. Push local changes to remote.
-                            root.logger('Nothing updated remotely. Pushing local changes to remote.');
+                                // Nothing updated remotely. Push local changes to remote.
+                                root.logger('Nothing updated remotely. Pushing local changes to remote.');
 
-                            root._synchronizePushRemote(sessionToken, lastSyncCount, function(err) {
+                                root._synchronizePushRemote(sessionToken, lastSyncCount, function(err) {
 
-                                if (err) {
-                                    root.logger('Remote push failed. Likely concurrent sync conflict. Retrying...');
-                                    return root.synchronize(callback, --retry);
-                                }
+                                    if (err) {
+                                        root.logger('Remote push failed. Likely concurrent sync conflict. Retrying...');
+                                        return root.synchronize(callback, --retry);
+                                    }
 
-                                root.logger('Sync successful.');
-                                return callback.onSuccess(root, updatedRemoteRecords);
+                                    root.logger('Sync successful.');
+                                    return callback.onSuccess(root, updatedRemoteRecords);
 
-                            });
+                                });
 
-                        }
-                    });
+                            }
+                        });
+
+                    }
+
                 });
 
             }
