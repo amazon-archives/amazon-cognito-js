@@ -544,18 +544,18 @@ AWS.CognitoSyncManager.LocalStorage = (function() {
 
     CognitoSyncLocalStorage.prototype.purgeDataset = function (identityId, datasetName, callback) {
 
+        var root = this;
+
         // Delete records.
         this.deleteDataset(identityId, datasetName, function (err) {
 
             if (err) { callback(err); }
 
             // Delete metadata.
-            delete(this.meta[datasetName]);
+            delete(root.meta[root.getMetadataKey(identityId, datasetName)]);
 
             // Save metadata.
-            this.saveMetadataCache(identityId, datasetName, this.meta, function (err, result) {
-                callback(null, result);
-            });
+            root.saveMetadataCache(identityId, root.meta, callback);
 
         });
 
