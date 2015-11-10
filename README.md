@@ -114,7 +114,7 @@ dataset.synchronize({
 
         // Or... use custom logic.
         // var newValue = conflicts[i].getRemoteRecord().getValue() + conflicts[i].getLocalRecord().getValue();
-        // resolved.push(conflicts[i].resovleWithValue(newValue);
+        // resolved.push(conflicts[i].resolveWithValue(newValue);
 
      }
 
