@@ -474,8 +474,8 @@ AWS.CognitoSyncManager.LocalStorage = (function() {
     CognitoSyncLocalStorage.prototype.putRecords = function (identityId, datasetName, records, callback) {
 
         var root = this;
-
         records = records || [];
+        records = records.slice();
 
         var request = function () {
 
