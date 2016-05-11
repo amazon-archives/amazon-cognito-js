@@ -43,7 +43,7 @@ if (AWS === undefined) {
         }
 
         // Initialize local store.
-        this.local = new AWS.CognitoSyncManager.LocalStorage({DataStore: AWS.CognitoSyncManager.StoreLocalStorage});
+        this.local = new AWS.CognitoSyncManager.LocalStorage({DataStore: options.DataStore ? options.DataStore : AWS.CognitoSyncManager.StoreLocalStorage});
 
         // Initialize remote store.
         this.remote = new AWS.CognitoSyncManager.RemoteStorage(this.identityPoolId, this.provider);
