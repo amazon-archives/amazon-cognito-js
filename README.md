@@ -1,5 +1,7 @@
 ﻿# Amazon Cognito Sync Manager for JavaScript
 
+Ionut
+
 **Developer Preview:** We welcome developer feedback on this project. You can reach us by creating an issue on the GitHub repository or post to the Amazon Cognito forums:
 
 * https://github.com/aws/amazon-cognito-js/issues
