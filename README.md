@@ -13,7 +13,7 @@ synchronize across other devices. The library uses the browser's local storage A
 data, similar to our [mobile SDK](http://aws.amazon.com/mobile/sdk/). This allows your web application to access stored data even when there is no
 connectivity.
 
-**Note:** This library is designed to be run in the browser. It has not been tested for use in other environments.
+**Note:** This library is designed to run in the browser. It has not been tested for use in other environments.
 
 ## Setup
 
