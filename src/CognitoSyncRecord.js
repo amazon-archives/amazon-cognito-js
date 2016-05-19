@@ -129,7 +129,7 @@ AWS.CognitoSyncManager.Record = (function() {
     };
 
     /**
-     * Returns the user who last modified the record.
+     * Returns the user/device who last modified the record.
      * @returns {string}
      */
 
@@ -138,7 +138,7 @@ AWS.CognitoSyncManager.Record = (function() {
     };
 
     /**
-     * Sets the user who last modified the record.
+     * Sets the user/device who last modified the record.
      * @param modifiedBy
      * @returns {CognitoSyncRecord}
      */
