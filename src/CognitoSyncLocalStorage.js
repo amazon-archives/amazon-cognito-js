@@ -77,7 +77,7 @@ AWS.CognitoSyncManager.LocalStorage = (function() {
     };
 
     /**
-     * Save the metadata cache from the local store.
+     * Save the metadata cache to the local store.
      * @param identityId
      * @param metadata
      * @param callback
