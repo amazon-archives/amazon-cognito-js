@@ -109,7 +109,7 @@ AWS.CognitoSyncManager.DatasetMetadata = (function(){
     };
 
     /**
-     * Returns the person who last modified the dataset.
+     * Returns the user/device who last modified the dataset.
      * @returns {String}
      */
 
@@ -118,7 +118,7 @@ AWS.CognitoSyncManager.DatasetMetadata = (function(){
     };
 
     /**
-     * Sets the user who last modified the dataset.
+     * Sets the user/device who last modified the dataset.
      * @param {String} modifiedBy
      * @returns {CognitoSyncDatasetMetadata}
      */
