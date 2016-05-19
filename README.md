@@ -81,7 +81,7 @@ dataset.put('newRecord', 'newValue', function(err, record) {
 
 <!-- Delete Records -->
 dataset.remove('oldKey', function(err, record) {
-  console.log(success);
+  if (!err) { console.log('success'); }
 });
 ```
 
