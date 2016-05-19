@@ -267,7 +267,7 @@ AWS.CognitoSyncManager.Dataset = (function() {
         // Validate/initialize retry count.
         if (retry === undefined) { retry = this.MAX_RETRY; }
 
-        root.logger('Starting synchronization... (retires: ' + retry + ')');
+        root.logger('Starting synchronization... (retries: ' + retry + ')');
 
         if (retry < 0) {
             return callback.onFailure(new Error('Synchronize failed: exceeded maximum retry count.'));
@@ -331,7 +331,7 @@ AWS.CognitoSyncManager.Dataset = (function() {
 
                             if (err) { return callback.onFailure(err); }
 
-                            root.logger('Fetch remote updates... found ' + remoteRecords.records.length + '.');
+                            root.logger('Fetching remote updates... found ' + remoteRecords.records.length + '.');
 
                             var mergedNameList = remoteRecords.getMergedDatasetNameList();
 
