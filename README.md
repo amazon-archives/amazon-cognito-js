@@ -86,7 +86,7 @@ dataset.remove('oldKey', function(err, record) {
 ```
 
 **Step 6.** Finally, synchronize the data to Cognito. You pass the synchronize function an object with callbacks to handle the
-various outcomes: onSuccess, onFailure, onConflict, onDatasetMerged, onDatasetDeleted.
+various outcomes: onSuccess, onFailure, onConflict, onDatasetsMerged, onDatasetDeleted.
 
 ```javascript
 <!-- Synchronize -->
@@ -136,7 +136,7 @@ dataset.synchronize({
 
   },
 
-  onDatasetMerged: function(dataset, datasetNames, callback) {
+  onDatasetsMerged: function(dataset, datasetNames, callback) {
 
      // Return true to continue the synchronization process.
      // Return false to handle dataset merges outside the synchroniziation callback.
