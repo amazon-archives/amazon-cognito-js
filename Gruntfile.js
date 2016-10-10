@@ -28,6 +28,7 @@ module.exports = function(grunt) {
         jshint: {
 
             options: {
+                reporterOutput: '',
                 browser: true,
                 globals: {
                     AWS: true
