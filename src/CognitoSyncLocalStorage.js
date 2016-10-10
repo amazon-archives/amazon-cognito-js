@@ -682,9 +682,10 @@ AWS.CognitoSyncManager.LocalStorage = (function() {
      * @param identityId
      * @param datasetName
      * @param record
+     * @param callback
      */
 
-    CognitoSyncLocalStorage.prototype.removeRecord = function (identityId, datasetName, record) {
+    CognitoSyncLocalStorage.prototype.removeRecord = function (identityId, datasetName, record, callback) {
         this.store.remove(identityId, datasetName, record, function (err) {
             if (err) { return callback(err); }
             return callback(null, true);

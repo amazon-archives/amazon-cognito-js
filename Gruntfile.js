@@ -33,7 +33,8 @@ module.exports = function(grunt) {
                 eqeqeq: true,
                 globals: {
                     AWS: true
-                }
+                },
+                undef: true
             },
 
             src: ['src/*.js']
