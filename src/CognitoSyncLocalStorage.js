@@ -232,7 +232,7 @@ AWS.CognitoSyncManager.LocalStorage = (function() {
         this.getRecord(identityId, datasetName, key, function (err, record) {
 
 
-            if (record && record.getValue() == value) {
+            if (record && record.getValue() === value) {
                 // Record hasn't changed. All done.
                 return callback(null, record);
             }

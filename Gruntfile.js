@@ -30,6 +30,7 @@ module.exports = function(grunt) {
             options: {
                 reporterOutput: '',
                 browser: true,
+                eqeqeq: true,
                 globals: {
                     AWS: true
                 }
