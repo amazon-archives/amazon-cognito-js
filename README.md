@@ -21,7 +21,9 @@ connectivity.
   * http://aws.amazon.com/sdk-for-browser/
 
 2. Download and include the Cognito Sync Manager for JavaScript:
-  * [/dist/amazon-cognito.min.js](https://github.com/aws/amazon-cognito-js/blob/master/dist/amazon-cognito.min.js)
+  * `<script src="/path/to/amazon-cognito.min.js"></script>`
+  * Or... `import 'amazon-cognito-js';`
+  * Or... `require('amazon-cognito-js');`
 
 ## Usage
 
@@ -121,7 +123,7 @@ dataset.synchronize({
      dataset.resolve(resolved, function() {
         return callback(true);
      });
-     
+
      // Or... callback false to stop the synchronization process.
      // return callback(false);
 
