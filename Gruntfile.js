@@ -28,10 +28,13 @@ module.exports = function(grunt) {
         jshint: {
 
             options: {
+                reporterOutput: '',
                 browser: true,
+                eqeqeq: true,
                 globals: {
                     AWS: true
-                }
+                },
+                undef: true
             },
 
             src: ['src/*.js']
@@ -71,6 +74,18 @@ module.exports = function(grunt) {
             }
         },
 
+        umd: {
+            all: {
+                options: {
+                    src: 'dist/amazon-cognito.min.js',
+                    deps: {
+                        default: [{'aws-sdk': 'AWS'}],
+                        global: [{'AWS': 'AWS'}]
+                    }
+                }
+            }
+        },
+
         watch: {
             scripts: {
                 files: ['src/*.js'],
@@ -85,6 +100,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-qunit');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-jsdoc');
+    grunt.loadNpmTasks('grunt-umd');
 
     grunt.registerTask('default', ['qunit']);
 

@@ -312,7 +312,7 @@ AWS.CognitoSyncManager.Dataset = (function() {
 
                     root.logger('Detecting last sync count... ' + syncCount);
 
-                    if (syncCount == -1) {
+                    if (parseInt(syncCount) === -1) {
 
                         // Dataset has been deleted locally
                         root.remote.deleteDataset(root.datasetName, function(err, data) {
