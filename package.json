@@ -24,7 +24,7 @@
   ],
   "keywords": ["amazon","aws","cognito","identity","sync"],
   "scripts": {
-    "build": "grunt bundle"
+    "build": "grunt uglify umd"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
