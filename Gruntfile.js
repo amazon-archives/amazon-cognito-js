@@ -79,7 +79,7 @@ module.exports = function(grunt) {
                 options: {
                     src: 'dist/amazon-cognito.min.js',
                     deps: {
-                        default: [{'aws-sdk': 'AWS'}],
+                        default: [{'aws-sdk/global': 'AWS'}],
                         global: [{'AWS': 'AWS'}]
                     }
                 }
