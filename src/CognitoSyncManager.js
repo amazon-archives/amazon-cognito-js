@@ -19,8 +19,6 @@ if (AWS === undefined) {
     throw new Error("AWS SDK must be loaded before loading the Sync Manager.");
 } else {
 
-    require('aws-sdk/clients/cognitosync');
-
     /**
      * Constructs a new Cognito Sync Manager class.
      * @constructor
