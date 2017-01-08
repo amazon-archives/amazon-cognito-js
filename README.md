@@ -25,7 +25,7 @@ connectivity.
   * Or... `import 'amazon-cognito-js';`
   * Or... `require('amazon-cognito-js');`
 
-For NPM usage refer to the following issue https://github.com/aws/amazon-cognito-js/issues/40
+For NPM usage refer to the following issue [NPM usage](https://github.com/aws/amazon-cognito-js/issues/40).
 
 ## Usage
 
