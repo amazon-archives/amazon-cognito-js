@@ -25,6 +25,8 @@ connectivity.
   * Or... `import 'amazon-cognito-js';`
   * Or... `require('amazon-cognito-js');`
 
+For NPM usage refer to the following issue https://github.com/aws/amazon-cognito-js/issues/40
+
 ## Usage
 
 **Step 1.** Log into Amazon Cognito management console and create a new identity pool. Be sure to enable the "unauthenticated
